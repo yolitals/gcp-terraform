@@ -8,6 +8,8 @@
      - ca-certificates
      - curl
      - software-properties-common
+    tags:
+         - packages
     become: yes
   - name:    Add Docker GPG key
     apt_key: url=https://download.docker.com/linux/ubuntu/gpg
@@ -22,6 +24,17 @@
 
   - name: Add user to docker group
     user:
-      name: ubuntu
+      name: azureuser
       group: docker
     become: yes
+  
+  - name: Docker run
+    shell: docker run -p 80:80 -d yolix/nginx-hello-world:v3
+    become: yes
+
+  # - name: Docker run
+  #   docker_container:
+  #     name: myapplication
+  #     image: yolix/nginx-hello-world:v3
+  #     ports:
+  #     - "80:80"
