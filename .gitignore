@@ -3,4 +3,4 @@ inventory
 *.retry
 command
 **/inventory
-**/terraform.tfstate*
+**/terraform.*
