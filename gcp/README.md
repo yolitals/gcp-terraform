@@ -66,7 +66,7 @@ $ gsutil mb -p ${TF_ADMIN_PROJECT} gs://${TF_ADMIN_PROJECT}
 ```
 * Create ssh key
 
-Create ssh key to can connect via ansible to complete the provisioning. 
+  Create ssh key to can connect via ansible to complete the provisioning. 
 
 ```sh
 $ ssh-keygen -f ~/.ssh/google_compute_engine
