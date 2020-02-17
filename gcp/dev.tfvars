@@ -1,3 +1,4 @@
-project_name="demo-iac"
-region="us-central1"
-billing_account="015E7C-1B37F1-4C78D7"
+project_name  = "wwcode-terraform-admin"
+region        = "us-central1"
+instance_name = "dev-instance"
+machine_type  = "f1-micro"
