@@ -63,11 +63,18 @@ $ gcloud services enable compute.googleapis.com
 
 ```sh
 $ gsutil mb -p ${TF_ADMIN_PROJECT} gs://${TF_ADMIN_PROJECT}
-$ gsutil versioning set on gs://${TF_ADMIN_PROJECT}
+```
+* Create ssh key
+
+Create ssh key to can connect via ansible to complete the provisioning. 
+
+```sh
+$ ssh-keygen -f ~/.ssh/google_compute_engine
+# Without passphrase
+# You can use a diferent output file but remember change it in medatada >> sshKeys into main.tf
 
 
 ```
-
 * Configure your environment for the Google Cloud Terraform provider
 ```
 export GOOGLE_APPLICATION_CREDENTIALS=${TF_CREDS}
