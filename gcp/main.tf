@@ -1,60 +1,11 @@
-
-provider "google" {
-  region = var.region
-}
-
-data "google_compute_zones" "available" {
-  project = var.project_name
-}
-
-resource "google_compute_instance" "web-app" {
-  project      = var.project_name
-  zone         = data.google_compute_zones.available.names[0]
-  name         = var.instance_name
-  machine_type = var.machine_type
-  tags         = ["web-app"]
-
-  boot_disk {
-    initialize_params {
-      image = "ubuntu-1604-xenial-v20170328"
-    }
-  }
-
-  network_interface {
-    network = "default"
-    access_config {
-    }
-  }
-
-  metadata = {
-    sshKeys = "ubuntu:${file("~/.ssh/google_compute_engine.pub")}"
-  }
-
-  provisioner "remote-exec" {
-    connection {
-      user = "ubuntu"
-      host = google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip
-    }
-    inline = [
-      "echo 'Hello world'"
-    ]
-  }
-
-  provisioner "local-exec" {
-    command = "ssh-keyscan -H ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> ~/.ssh/known_hosts && echo '[gcp-compute]' > inventory && echo ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> inventory && ansible-playbook  -e 'host_key_checking=False' docker.yml -i inventory -u ubuntu"
-  }
-
-}
-
-resource "google_compute_firewall" "default" {
-  project = var.project_name
-  name    = "test-firewall"
-  network = "default"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["80", "8080", "1000-2000"]
-  }
-
-  target_tags = ["web-app"]
+module "vm_dev" { 
+  source        = "./modules/compute_instance"
+  billing_account = var.billing_account
+  project_name  = var.project_name
+  region        = var.region
+  instance_name = var.instance_name
+  machine_type  = var.machine_type
+  boot_image    = var.boot_image
+  ssh_key       = var.ssh_key
+  target_tags   = var.target_tags
 }
