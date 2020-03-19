@@ -30,3 +30,25 @@ jobs:
         TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
         TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
+
+    # Terraform int
+    - name: Terraform plan
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.6
+        tf_actions_subcommand: 'plan'
+      env:
+        TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
+        TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
+    # Terraform apply
+    - name: Terraform plan
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.6
+        tf_actions_subcommand: 'apply'
+        args: '-auto-approve'
+      env:
+        TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
+        TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
