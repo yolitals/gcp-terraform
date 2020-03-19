@@ -43,7 +43,7 @@ resource "google_compute_instance" "web-app" {
   }
 
   provisioner "local-exec" {
-    command = "ssh-keyscan -H ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> ~/.ssh/known_hosts && echo '[gcp-compute]' > inventory && echo ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> inventory && ansible-playbook  -e 'host_key_checking=False' docker.yml -i inventory -u ubuntu"
+    command = "ssh-keyscan -H ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> ~/.ssh/known_hosts && echo '[gcp-compute]' > inventory && echo ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> inventory"
   }
 
 }
