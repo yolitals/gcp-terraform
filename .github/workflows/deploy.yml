@@ -34,28 +34,37 @@ jobs:
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
         FILE_NAME: gcp/credentials/ssh_key.pub  
-    # Terraform int
-    - name: Terraform init
-      uses: hashicorp/terraform-github-actions@master
+    - uses: autero1/action-terraform@v0.1.0
       with:
-        tf_actions_version: 0.12.6
-        tf_actions_subcommand: 'init'
-        tf_actions_working_dir: 'gcp'
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+        terraform_version: 0.12.6
+    - name: Download Go Modules
+      working-directory: gcp/modules/specs
+      run: go mod download
+    - name: Run Go Tests
+      working-directory: gcp/modules/specs
+      run: go test -v ./...
+    # # Terraform int
+    # - name: Terraform init
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'init'
+    #     tf_actions_working_dir: 'gcp'
+    #   env:
+    #     GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
 
-    # Terraform plan
-    - name: Terraform plan
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.6
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: 'gcp'
-      env:
-        TF_VAR_json_credential: /github/workspace/gcp/credentials/gcp_cred.json
-        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
-        TF_VAR_ssh_private_key : /github/workspace/gcp/credentials/ssh_key
-        TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub
+    # # Terraform plan
+    # - name: Terraform plan
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'plan'
+    #     tf_actions_working_dir: 'gcp'
+    #   env:
+    #     TF_VAR_json_credential: /github/workspace/gcp/credentials/gcp_cred.json
+    #     GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+    #     TF_VAR_ssh_private_key : /github/workspace/gcp/credentials/ssh_key
+    #     TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub
     # # Terraform apply
     # - name: Terraform apply
     #   uses: hashicorp/terraform-github-actions@master
