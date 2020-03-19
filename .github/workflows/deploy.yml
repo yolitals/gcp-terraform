@@ -20,7 +20,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Decrypt large secret
-      run: echo $GCP_CRED > gcp/cred.json
+      run: echo $GCP_CRED > ${HOME}/gcp/cred.json
       env:
         GCP_CRED: ${{ secrets.gcp_json_credential }}
       # This command is just an example to show your secret being printed
