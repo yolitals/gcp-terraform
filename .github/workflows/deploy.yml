@@ -38,7 +38,7 @@ jobs:
         tf_actions_working_dir: 'gcp'
       env:
         TF_VAR_json_credential: /github/workspace/json_cred.json
-        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/json_cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp_cred.json
         TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
 
     # # Terraform int
