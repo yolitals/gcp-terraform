@@ -42,7 +42,7 @@ jobs:
       run: go mod download
     - name: Run Go Tests
       working-directory: gcp/modules/specs
-      run: go test -v ./...
+      run: pwd #go test -v ./...
     # # Terraform int
     # - name: Terraform init
     #   uses: hashicorp/terraform-github-actions@master
