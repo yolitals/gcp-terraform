@@ -48,7 +48,7 @@ jobs:
         GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
     
     # Terraform validate
-    - name: Terraform plan
+    - name: Terraform validate
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 0.12.6
