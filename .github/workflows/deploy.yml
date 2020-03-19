@@ -28,8 +28,13 @@ jobs:
       with:
         name: credentials
         path: json_cred.json
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v1
+      with:
+        name: credentials
+
     - name: test artifact
-      run: /home/runner/work/gcp-terraform/gcp-terraform/json_cred.json
+      run: credentials/json_cred.json
     # # Terraform int
     # - name: Terraform init
     #   uses: hashicorp/terraform-github-actions@master
