@@ -16,6 +16,5 @@ func TestGCPModule(t *testing.T) {
 		terraform.Destroy(t, terraformOptions)
 	}() 
 	terraform.Init(t, terraformOptions)
-	terraform.Validate(t, terraformOptions)
 	terraform.Apply(t, terraformOptions)
 }
