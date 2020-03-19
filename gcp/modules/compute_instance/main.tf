@@ -1,5 +1,6 @@
 
 provider "google" {
+credentials = file(var.json_credential)
   region = var.region
 }
 
@@ -33,6 +34,7 @@ resource "google_compute_instance" "web-app" {
   provisioner "remote-exec" {
     connection {
       user = "ubuntu"
+      private_key = file(var.ssh_private_key)
       host = google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip
     }
     inline = [
