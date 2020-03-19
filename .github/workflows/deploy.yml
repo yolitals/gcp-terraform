@@ -37,12 +37,9 @@ jobs:
     - uses: autero1/action-terraform@v0.1.0
       with:
         terraform_version: 0.12.6
-    - name: Download Go Modules
-      working-directory: gcp/modules/specs
-      run: go mod download
     - name: Run Go Tests
       working-directory: gcp/modules/specs
-      run: go test -v ./...
+      run: dep ensure &&go test -v ./...
     # # Terraform int
     # - name: Terraform init
     #   uses: hashicorp/terraform-github-actions@master
