@@ -20,14 +20,14 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Decrypt large secret
-      run: echo "$GCP_CRED" | base64 --decode > ${HOME}/work/_temp/_github_home/key.json
+      run: ./.github/scripts/decrypt_secret.sh
       env:
-        GCP_CRED: ${{ secrets.gcp_json_credential }}
+        LARGE_SECRET_PASSPHRASE: ${{ secrets.gcp_json_credential }}
       # This command is just an example to show your secret being printed
       # Ensure you remove any print statements of your secrets. GitHub does
       # not hide secrets that use this workaround.
     - name: Test printing your secret (Remove this step in production)
-      run: cat ${HOME}/work/_temp/_github_home/key.json && echo ${HOME}
+      run: cat $HOME/secrets/my_secret.json
     # Terraform int
     - name: Terraform init
       uses: hashicorp/terraform-github-actions@master
