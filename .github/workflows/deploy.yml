@@ -20,9 +20,9 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Decrypt large secret
-      run: echo $GOOGLE_APPLICATION_CREDENTIALS > gcp/cred.json
+      run: echo $GCP_CRED > gcp/cred.json
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
+        GCP_CRED: ${{ secrets.gcp_json_credential }}
       # This command is just an example to show your secret being printed
       # Ensure you remove any print statements of your secrets. GitHub does
       # not hide secrets that use this workaround.
@@ -36,8 +36,8 @@ jobs:
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: 'gcp'
       env:
-        TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
+        TF_VAR_json_credential: gcp/cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: gcp/cred.json
         TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
 
     # Terraform int
