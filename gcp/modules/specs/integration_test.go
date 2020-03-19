@@ -11,7 +11,6 @@ func TestGCPModule(t *testing.T) {
 		Vars: map[string]interface{}{
 		},
 	}
-
 	defer func() {
 		terraform.Destroy(t, terraformOptions)
 	}() 
