@@ -20,9 +20,15 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Decrypt large secret
-      run: echo $GCP_CRED > gcp_cred.json && chmod 444 gcp_cred.json && pwd
+      run: echo $GCP_CRED > gcp_cred.json && chmod 444 gcp_cred.json
       env:
         GCP_CRED: ${{ secrets.gcp_json_credential }}
+    - name: Upload math result for job 1
+      uses: actions/upload-artifact@v1
+      with:
+        name: credentials
+        path: gcp_cred.json
+    
     # Terraform int
     - name: Terraform init
       uses: hashicorp/terraform-github-actions@master
