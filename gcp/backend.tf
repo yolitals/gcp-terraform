@@ -1,6 +1,6 @@
 terraform {
- backend "gcs" {
-   bucket  = "yolandal-terraform-admin"
-   prefix    = "terraform/state"
- }
+  backend "gcs" {
+    bucket = "wwcode-terraform-admin"
+    prefix = "terraform/state"
+  }
 }
