@@ -1,7 +1,7 @@
 
 provider "google" {
-credentials = file(var.json_credential)
-  region = var.region
+  credentials = file(var.json_credential)
+  region      = var.region
 }
 
 data "google_compute_zones" "available" {
@@ -33,17 +33,13 @@ resource "google_compute_instance" "web-app" {
 
   provisioner "remote-exec" {
     connection {
-      user = "ubuntu"
+      user        = "ubuntu"
       private_key = file(var.ssh_private_key)
-      host = google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip
+      host        = google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip
     }
     inline = [
       "echo 'Hello world'"
     ]
-  }
-
-  provisioner "local-exec" {
-    command = "ssh-keyscan -H ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> ~/.ssh/known_hosts && echo '[gcp-compute]' > inventory && echo ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> inventory"
   }
 
 }
