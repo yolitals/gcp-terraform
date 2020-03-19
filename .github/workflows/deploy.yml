@@ -24,10 +24,7 @@ jobs:
       env:
         GCP_CRED: ${{ secrets.gcp_json_credential }}
     - name: Upload math result for job 1
-      uses: actions/upload-artifact@v1
-      with:
-        name: credentials
-        path: gcp_cred.json
+      run: cat gcp_cred.json
     
     # Terraform int
     - name: Terraform init
