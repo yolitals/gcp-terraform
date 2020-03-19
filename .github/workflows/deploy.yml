@@ -41,7 +41,29 @@ jobs:
     - uses: autero1/action-terraform@v0.1.0
       with:
         terraform_version: 0.12.6
-
+    # Terraform int
+    - name: Terraform init
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.6
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: 'gcp'
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+    
+    # Terraform validate
+    - name: Terraform plan
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.6
+        tf_actions_subcommand: 'validate'
+        tf_actions_working_dir: 'gcp'
+      env:
+        TF_VAR_json_credential: /github/workspace/gcp/credentials/gcp_cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+        TF_VAR_ssh_private_key : /github/workspace/gcp/credentials/ssh_key
+        TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub   
+    
     # Get dependencies
     - name: Download Go Modules
       working-directory: gcp
@@ -56,15 +78,6 @@ jobs:
         GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/gcp-terraform/gcp-terraform/credentials/gcp_cred.json
         TF_VAR_ssh_private_key : /home/runner/work/gcp-terraform/gcp-terraform/gcp/credentials/ssh_key
         TF_VAR_ssh_key : /home/runner/work/gcp-terraform/gcp-terraform/gcp/credentials/ssh_key.pub
-    # # Terraform int
-    # - name: Terraform init
-    #   uses: hashicorp/terraform-github-actions@master
-    #   with:
-    #     tf_actions_version: 0.12.6
-    #     tf_actions_subcommand: 'init'
-    #     tf_actions_working_dir: 'gcp'
-    #   env:
-    #     GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
 
     # # Terraform plan
     # - name: Terraform plan
