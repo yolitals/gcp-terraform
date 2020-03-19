@@ -20,7 +20,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Decrypt large secret
-      run: pwd
+      run: echo $GCP_CRED > gcp_cred.json && chmod 444 gcp_cred.json
       env:
         GCP_CRED: ${{ secrets.gcp_json_credential }}
     # Terraform int
@@ -31,8 +31,8 @@ jobs:
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: 'gcp'
       env:
-        TF_VAR_json_credential: credentials/json_cred.json
-        GOOGLE_APPLICATION_CREDENTIALS: credentials/json_cred.json
+        TF_VAR_json_credential: /github/workspace/json_cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/json_cred.json
         TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
 
     # # Terraform int
