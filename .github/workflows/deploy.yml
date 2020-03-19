@@ -19,6 +19,8 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+
+    # Decrypt all keys
     - name: Decrypt gcp credential
       run: ./.github/scripts/decrypt_secret.sh
       env:
@@ -33,13 +35,19 @@ jobs:
       run: ./.github/scripts/decrypt_secret.sh
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-        FILE_NAME: gcp/credentials/ssh_key.pub  
+        FILE_NAME: gcp/credentials/ssh_key.pub 
+    
+    # Prepare envirnoment for tests 
     - uses: autero1/action-terraform@v0.1.0
       with:
         terraform_version: 0.12.6
+
+    # Get dependencies
     - name: Download Go Modules
       working-directory: gcp
       run: cd modules/specs && go mod download
+
+    # Execute tests
     - name: Run Go Tests
       working-directory: gcp
       run: cd modules/specs && go test -v ./...
