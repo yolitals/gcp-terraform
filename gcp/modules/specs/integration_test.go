@@ -18,3 +18,4 @@ func TestGCPModule(t *testing.T) {
 	terraform.Init(t, terraformOptions)
 	terraform.Apply(t, terraformOptions)
 }
+
