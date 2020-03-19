@@ -34,7 +34,7 @@ jobs:
         name: credentials
 
     - name: test artifact
-      run: credentials/json_cred.json
+      run: chmod 444 credentials/json_cred.json && cat credentials/json_cred.json
     # # Terraform int
     # - name: Terraform init
     #   uses: hashicorp/terraform-github-actions@master
