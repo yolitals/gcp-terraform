@@ -27,7 +27,7 @@ jobs:
       # Ensure you remove any print statements of your secrets. GitHub does
       # not hide secrets that use this workaround.
     - name: Test printing your secret (Remove this step in production)
-      run: cat gcp/cred.json
+      run: cat ${HOME}/gcp/cred.json
     # Terraform int
     - name: Terraform init
       uses: hashicorp/terraform-github-actions@master
@@ -37,7 +37,7 @@ jobs:
         tf_actions_working_dir: 'gcp'
       env:
         TF_VAR_json_credential: gcp/cred.json
-        GOOGLE_APPLICATION_CREDENTIALS: gcp/cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: ${HOME}/gcp/cred.json
         TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
 
     # Terraform int
