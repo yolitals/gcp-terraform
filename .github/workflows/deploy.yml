@@ -20,7 +20,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Decrypt large secret
-      run: echo $GCP_CRED > gcp_cred.json && chmod 444 gcp_cred.json
+      run: echo $GCP_CRED > gcp_cred.json && chmod 444 gcp_cred.json && ls -al
       env:
         GCP_CRED: ${{ secrets.gcp_json_credential }}
     - name: Upload math result for job 1
