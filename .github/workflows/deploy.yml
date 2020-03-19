@@ -23,14 +23,17 @@ jobs:
       run: ./.github/scripts/decrypt_secret.sh
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-        FILE_NAME: gcp/gcp_cred.json
+        FILE_NAME: gcp/credentials/gcp_cred.json
     - name: Decrypt ssh key
       run: ./.github/scripts/decrypt_secret.sh
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
-        FILE_NAME: gcp/ssh_key
-    - name: test_key
-      run: cat gcp/ssh_key
+        FILE_NAME: gcp/credentials/ssh_key
+    - name: Decrypt ssh public key
+      run: ./.github/scripts/decrypt_secret.sh
+      env:
+        LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+        FILE_NAME: gcp/credentials/ssh_key.pub  
     # Terraform int
     - name: Terraform init
       uses: hashicorp/terraform-github-actions@master
@@ -39,9 +42,7 @@ jobs:
         tf_actions_subcommand: 'init'
         tf_actions_working_dir: 'gcp'
       env:
-        TF_VAR_json_credential: /github/workspace/gcp/gcp_cred.json
-        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/gcp_cred.json
-        TF_VAR_ssh_private_key : /github/workspace/gcp/ssh_key
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
 
     # Terraform plan
     - name: Terraform plan
@@ -51,9 +52,10 @@ jobs:
         tf_actions_subcommand: 'plan'
         tf_actions_working_dir: 'gcp'
       env:
-        TF_VAR_json_credential: /github/workspace/gcp/gcp_cred.json
-        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/gcp_cred.json
-        TF_VAR_ssh_private_key : /github/workspace/gcp/ssh_key
+        TF_VAR_json_credential: /github/workspace/gcp/credentials/gcp_cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+        TF_VAR_ssh_private_key : /github/workspace/gcp/credentials/ssh_key
+        TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub
     # # Terraform apply
     # - name: Terraform apply
     #   uses: hashicorp/terraform-github-actions@master
