@@ -19,7 +19,15 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
+    - name: Decrypt large secret
+      run: ./.github/scripts/decrypt_secret.sh
+      env:
+        test_var: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+      # This command is just an example to show your secret being printed
+      # Ensure you remove any print statements of your secrets. GitHub does
+      # not hide secrets that use this workaround.
+    - name: Test printing your secret (Remove this step in production)
+      run: cat $HOME/secrets/test_var.json
     # Terraform int
     - name: Terraform init
       uses: hashicorp/terraform-github-actions@master
