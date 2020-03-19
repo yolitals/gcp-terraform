@@ -26,6 +26,7 @@ jobs:
       with:
         tf_actions_version: 0.12.6
         tf_actions_subcommand: 'init'
+        tf_actions_working_dir: 'gcp'
       env:
         TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
@@ -37,16 +38,18 @@ jobs:
       with:
         tf_actions_version: 0.12.6
         tf_actions_subcommand: 'plan'
+        tf_actions_working_dir: 'gcp'
       env:
         TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
         TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
     # Terraform apply
-    - name: Terraform plan
+    - name: Terraform apply
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 0.12.6
         tf_actions_subcommand: 'apply'
+        tf_actions_working_dir: 'gcp'
         args: '-auto-approve'
       env:
         TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
