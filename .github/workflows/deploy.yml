@@ -24,7 +24,8 @@ jobs:
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
         FILE_NAME: gcp/gcp_cred.json
-    
+    - name: test
+      run: cat gcp/gcp_cred.json
     # Terraform int
     - name: Terraform init
       uses: hashicorp/terraform-github-actions@master
