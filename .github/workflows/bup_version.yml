@@ -3,21 +3,15 @@ on:
   push:
     branches:
       - master
-    paths-ignore:
-      - 'CHANGELOG.md'
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
       with:
-        token: ${{ secrets.GITHUB_TOKEN_ACTION }}
+        fetch-depth: '0'
     - name: Bump version and push tag
-      uses: TriPSs/conventional-changelog-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN_ACTION }}
-        git-message: 'chore(release): {version}'
-        preset: 'angular'
-        tag-prefix: ''
-        output-file: 'CHANGELOG.md'
+      uses: anothrNick/github-tag-action@1.17.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
