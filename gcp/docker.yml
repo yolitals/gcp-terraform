@@ -24,17 +24,11 @@
 
   - name: Add user to docker group
     user:
-      name: azureuser
+      name: ubuntu
       group: docker
     become: yes
   
   - name: Docker run
-    shell: docker run -p 80:80 -d yolix/nginx-hello-world:v3
+    shell: docker run -p 80:80 -d yolix/wwcode-hello-world:v5
     become: yes
 
-  # - name: Docker run
-  #   docker_container:
-  #     name: myapplication
-  #     image: yolix/nginx-hello-world:v3
-  #     ports:
-  #     - "80:80"
