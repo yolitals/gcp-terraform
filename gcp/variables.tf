@@ -11,11 +11,11 @@ variable "target_tags" {
 }
 variable "boot_image" {}
 variable "ssh_key" {
-    default = "~/.ssh/google_compute_engine.pub"
+  default = "./credentials/.credentials/ssh_key.pub"
 }
 variable "ssh_private_key" {
-    default = "~/.ssh/google_compute_engine"
+  default = "./credentials/.credentials/ssh_key"
 }
 variable "json_credential" {
-  
+  default = "./credentials/.credentials/gcp_cred.json"
 }
