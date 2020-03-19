@@ -1,0 +1,129 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request 
+# events but only for the master branch
+on:
+  push:
+    branches: [ 'feature/**' ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Decrypt all keys
+    - name: Decrypt gcp credential
+      run: ./.github/scripts/decrypt_secret.sh
+      env:
+        LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+        FILE_NAME: gcp/credentials/gcp_cred.json
+    - name: Decrypt ssh key
+      run: ./.github/scripts/decrypt_secret.sh
+      env:
+        LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+        FILE_NAME: gcp/credentials/ssh_key
+    - name: Decrypt ssh public key
+      run: ./.github/scripts/decrypt_secret.sh
+      env:
+        LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
+        FILE_NAME: gcp/credentials/ssh_key.pub 
+
+    # Terraform int
+    - name: Terraform init
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.6
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: 'gcp/modules/compute_instance'
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+    
+    # Terraform validate
+    - name: Terraform validate
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.12.6
+        tf_actions_subcommand: 'validate'
+        tf_actions_working_dir: 'gcp/modules/compute_instance'
+      env:
+        TF_VAR_json_credential: /github/workspace/gcp/credentials/gcp_cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+        TF_VAR_ssh_private_key : /github/workspace/gcp/credentials/ssh_key
+        TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub   
+    
+    # Prepare envirnoment for tests 
+    - uses: autero1/action-terraform@v0.1.0
+      with:
+        terraform_version: 0.12.6  
+  
+    # Get dependencies
+    - name: Download Go Modules
+      working-directory: gcp
+      run: cd modules/specs && go mod download
+
+    # Execute tests
+    - name: Run Go Tests
+      working-directory: gcp
+      run: cd modules/specs && go test -v ./...
+      env:
+        TF_VAR_json_credential: /home/runner/work/gcp-terraform/gcp-terraform/gcp/credentials/gcp_cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/gcp-terraform/gcp-terraform/credentials/gcp_cred.json
+        TF_VAR_ssh_private_key : /home/runner/work/gcp-terraform/gcp-terraform/gcp/credentials/ssh_key
+        TF_VAR_ssh_key : /home/runner/work/gcp-terraform/gcp-terraform/gcp/credentials/ssh_key.pub
+
+    # # Terraform plan
+    # - name: Terraform plan
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'plan'
+    #     tf_actions_working_dir: 'gcp'
+    #   env:
+    #     TF_VAR_json_credential: /github/workspace/gcp/credentials/gcp_cred.json
+    #     GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+    #     TF_VAR_ssh_private_key : /github/workspace/gcp/credentials/ssh_key
+    #     TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub
+    # # Terraform apply
+    # - name: Terraform apply
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'apply'
+    #     tf_actions_working_dir: 'gcp'
+    #     args: '-auto-approve'
+    #   env:
+    #     TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
+    #     GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
+    #     TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
+
+    # # Terraform int
+    # - name: Terraform init
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'init'
+    #     tf_actions_working_dir: 'gcp'
+    #   env:
+    #     GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+    
+    # # Terraform validate
+    # - name: Terraform plan
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'plan'
+    #     tf_actions_working_dir: 'gcp'
+    #   env:
+    #     TF_VAR_json_credential: /github/workspace/gcp/credentials/gcp_cred.json
+    #     GOOGLE_APPLICATION_CREDENTIALS: /github/workspace/gcp/credentials/gcp_cred.json
+    #     TF_VAR_ssh_private_key : /github/workspace/gcp/credentials/ssh_key
+    #     TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub 
