@@ -19,38 +19,49 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    # Terraform int
-    - name: Terraform init
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.6
-        tf_actions_subcommand: 'init'
-        tf_actions_working_dir: 'gcp'
+    - name: Decrypt large secret
+      run: echo $GCP_CRED > json_cred.json
       env:
-        TF_VAR_json_credential: ${{ secrets.json_gcp_cred }}
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.json_gcp_cred }}
-        TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
+        GCP_CRED: ${{ secrets.gcp_json_credential }}
+    - name: Upload math result for job 1
+      uses: actions/upload-artifact@v1
+      with:
+        name: credentials
+        path: json_cred.json
+    - name: test artifact
+      run: credentials/json_cred.json
+    # # Terraform int
+    # - name: Terraform init
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'init'
+    #     tf_actions_working_dir: 'gcp'
+    #   env:
+    #     TF_VAR_json_credential: gcp/cred.json
+    #     GOOGLE_APPLICATION_CREDENTIALS: /github/home/gcp/cred.json
+    #     TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
 
-    # Terraform int
-    - name: Terraform plan
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.6
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: 'gcp'
-      env:
-        TF_VAR_json_credential:  ${{ secrets.gcp_json_credential }}
-        GOOGLE_APPLICATION_CREDENTIALS:  ${{ secrets.gcp_json_credential }}
-        TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
-    # Terraform apply
-    - name: Terraform apply
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.12.6
-        tf_actions_subcommand: 'apply'
-        tf_actions_working_dir: 'gcp'
-        args: '-auto-approve'
-      env:
-        TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
-        TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
+    # # Terraform int
+    # - name: Terraform plan
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'plan'
+    #     tf_actions_working_dir: 'gcp'
+    #   env:
+    #     TF_VAR_json_credential:  ${{ secrets.gcp_json_credential }}
+    #     GOOGLE_APPLICATION_CREDENTIALS:  ${{ secrets.gcp_json_credential }}
+    #     TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
+    # # Terraform apply
+    # - name: Terraform apply
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.12.6
+    #     tf_actions_subcommand: 'apply'
+    #     tf_actions_working_dir: 'gcp'
+    #     args: '-auto-approve'
+    #   env:
+    #     TF_VAR_json_credential: ${{ secrets.gcp_json_credential }}
+    #     GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.gcp_json_credential }}
+    #     TF_VAR_ssh_private_key : ${{ secrets.ssh_public_key }}
