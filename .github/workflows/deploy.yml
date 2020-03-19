@@ -38,11 +38,16 @@ jobs:
       with:
         terraform_version: 0.12.6
     - name: Download Go Modules
-      working-directory: gcp/modules/specs
-      run: go mod download
+      working-directory: gcp
+      run: cd modules/specs && go mod download
     - name: Run Go Tests
-      working-directory: gcp/modules/specs
-      run: pwd #go test -v ./...
+      working-directory: gcp
+      run: cd modules/specs && go test -v ./...
+      env:
+        TF_VAR_json_credential: /home/runner/work/gcp-terraform/gcp-terraform/gcp/credentials/gcp_cred.json
+        GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/gcp-terraform/gcp-terraform/credentials/gcp_cred.json
+        TF_VAR_ssh_private_key : /home/runner/work/gcp-terraform/gcp-terraform/gcp/credentials/ssh_key
+        TF_VAR_ssh_key : /github/workspace/gcp/credentials/ssh_key.pub
     # # Terraform int
     # - name: Terraform init
     #   uses: hashicorp/terraform-github-actions@master

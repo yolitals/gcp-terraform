@@ -1,3 +1,6 @@
+variable "ssh_key" {}
+variable "ssh_private_key" {}
+variable "json_credential" {}
 module "vm_test" {
   source          = "../compute_instance"
   project_name    = "wwcode-terraform-admin"
@@ -6,7 +9,7 @@ module "vm_test" {
   machine_type    = "f1-micro"
   boot_image      = "ubuntu-1604-xenial-v20170328"
   target_tags     = ["web-app"]
-  json_credential = "./.credentials/gcp_cred.json"
-  ssh_private_key = "./.credentials/ssh_key"
-  ssh_key         = "./.credentials/ssh_key.pub"
+  json_credential = var.json_credential
+  ssh_private_key = var.ssh_private_key
+  ssh_key         = var.ssh_key
 }
