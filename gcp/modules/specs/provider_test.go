@@ -8,7 +8,7 @@ import (
 
 func TestGCPModule(t *testing.T) {
 	terraformOptions := &terraform.Options{
-		TerraformDir: "../gcp",
+		TerraformDir: "../compute_instance",
 		Vars: map[string]interface{}{
 		},
 		VarFiles: []string{"../specs/specs.tfvars"},
