@@ -4,3 +4,4 @@ inventory
 command
 **/inventory
 **/terraform.*
+**/.credentials/
