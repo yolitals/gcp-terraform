@@ -1,8 +1,11 @@
 variable "project_name" {
+    type= string
 }
-variable "region" {}
+variable "region" {
+    type = string
+}
 variable "instance_name" {
-
+    type = string 
 }
 variable "machine_type" {
 
