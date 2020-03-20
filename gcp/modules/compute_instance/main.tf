@@ -46,7 +46,7 @@ resource "google_compute_instance" "web-app" {
 
 resource "google_compute_firewall" "default" {
   project = var.project_name
-  name    = "test-firewall"
+  name    = var.firewall_rule_name
   network = "default"
 
   allow {
