@@ -1,8 +1,11 @@
 variable "project_name" {
+    type= string
 }
-variable "region" {}
+variable "region" {
+    type = string
+}
 variable "instance_name" {
-
+    type = string 
 }
 variable "machine_type" {
 
@@ -19,5 +22,8 @@ variable "json_credential" {
   
 }
 
+variable "firewall_rule_name" {
+  
+}
 
 

@@ -12,4 +12,5 @@ module "vm_test" {
   json_credential = var.json_credential
   ssh_private_key = var.ssh_private_key
   ssh_key         = var.ssh_key
+  firewall_rule_name = "firewall-demo"
 }
