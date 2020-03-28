@@ -12,7 +12,7 @@ resource "google_compute_instance" "web-app" {
   project      = var.project_name
   zone         = data.google_compute_zones.available.names[0]
   name         = var.instance_name
-  machine_type = var.machine_type
+  machine_type = var.machine_type2
   tags         = var.target_tags
 
   boot_disk {
