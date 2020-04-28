@@ -25,5 +25,6 @@ variable "json_credential" {
 variable "firewall_rule_name" {
   
 }
-
-
+variable "local-exec" {
+  
+}
