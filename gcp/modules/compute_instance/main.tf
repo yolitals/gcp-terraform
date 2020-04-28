@@ -42,7 +42,7 @@ resource "google_compute_instance" "web-app" {
     ]
   }
   provisioner "local-exec" {
-    command = "ssh-keyscan -H ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> ~/.ssh/known_hosts && echo '[gcp-compute]' > inventory && echo ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> inventory"
+    command = "mkdir -p ~/.ssh/known_hosts && ssh-keyscan -H ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> ~/.ssh/known_hosts && echo '[gcp-compute]' > inventory && echo ${google_compute_instance.web-app.network_interface.0.access_config.0.nat_ip} >> inventory"
   }
   provisioner "local-exec" {
     command = var.local-exec
