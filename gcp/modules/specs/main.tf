@@ -13,5 +13,5 @@ module "vm_test" {
   ssh_private_key = var.ssh_private_key
   ssh_key         = var.ssh_key
   firewall_rule_name = "firewall-demo"
-  local-exec = "echo +'Hello world'"
+  local_exec = "echo +'Hello world'"
 }
