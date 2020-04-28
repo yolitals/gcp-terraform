@@ -7,7 +7,7 @@ variable "region" {
 variable "instance_name" {
     type = string 
 }
-variable "machine_type2" {
+variable "machine_type" {
 
 }
 variable "target_tags" {
