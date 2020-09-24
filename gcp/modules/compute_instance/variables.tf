@@ -1,5 +1,6 @@
 variable "project_name" {
     type= string
+    description = "GCP project name"
 }
 variable "region" {
     type = string
