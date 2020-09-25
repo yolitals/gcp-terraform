@@ -4,6 +4,7 @@ variable "project_name" {
 }
 variable "region" {
     type = string
+    description = "GCP region"
 }
 variable "instance_name" {
     type = string 
