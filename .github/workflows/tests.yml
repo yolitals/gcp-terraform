@@ -62,6 +62,8 @@ jobs:
     
     # Prepare envirnoment for tests 
     - uses: autero1/action-terraform@v0.1.0
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       with:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         terraform_version: 0.12.6  
