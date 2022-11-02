@@ -71,7 +71,7 @@ jobs:
     # Get dependencies
     - name: Download Go Modules
       working-directory: gcp
-      run: cd modules/specs && go mod download
+      run: cd modules/specs && go mod tidy
 
     # Execute tests
     - name: Run Go Tests
