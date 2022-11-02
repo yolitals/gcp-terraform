@@ -61,5 +61,5 @@ resource "google_compute_firewall" "default" {
   }
 
   target_tags = ["web-app"]
+  source_tags = []
 }
-#Add line to test
