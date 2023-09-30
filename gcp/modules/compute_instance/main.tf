@@ -1,9 +1,3 @@
-
-provider "google" {
-  credentials = file(var.json_credential)
-  region      = var.region
-}
-
 data "google_compute_zones" "available" {
   project = var.project_name
 }
