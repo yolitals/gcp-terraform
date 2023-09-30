@@ -5,7 +5,3 @@ terraform {
     }
   }
 }
-provider "google" {
-  credentials = file(var.json_credential)
-  region      = var.region
-}
