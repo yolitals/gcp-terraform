@@ -15,3 +15,4 @@ module "vm_test" {
   firewall_rule_name = "firewall-demo"
   local_exec = "echo +'Hello world'"
 }
+#Add line to test
